@@ -4,7 +4,7 @@ const cors = require("cors");
 const bodyParser = require("body-parser");
 
 const app = express();
-const PORT = 3000;
+const PORT = process.env.PORT || 3000; // Use Render's dynamic port
 
 // Middlewares
 app.use(cors());
@@ -17,7 +17,7 @@ const receipts = {};
 app.post("/read", (req, res) => {
   const { userId, channelId, messageId, timestamp } = req.body;
 
-  if (!userId || !channelId || !messageId) {
+  if (!userId || !channelId || !messageId || !timestamp) {
     return res.status(400).json({ error: "Missing required fields" });
   }
 
@@ -38,5 +38,5 @@ app.get("/status/:channelId", (req, res) => {
 
 // Start server
 app.listen(PORT, () => {
-  console.log(`✅ Read Receipts backend running on http://localhost:${PORT}`);
+  console.log(`✅ Read Receipts backend running on port ${PORT}`);
 });
